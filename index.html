@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Club Page — FMPT Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --gold:#FFA700;
+      --blue:#0C4D9B;
+      --deep1:#050E1B;
+      --deep2:#071B33;
+      --text:#EAF0F7;
+      --muted:#C7D5E6;
+      --border:rgba(255,255,255,.16);
+      --glass:rgba(255,255,255,.08);
+      --shadow:0 22px 80px rgba(0,0,0,.45);
+      --danger:#FF5A5A;
+      --ok:#7CFFB2;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      overflow-x:hidden;
+      background:
+        radial-gradient(1200px 800px at 10% -10%, rgba(255,167,0,.15), transparent 45%),
+        radial-gradient(900px 650px at 90% 10%, rgba(12,77,155,.28), transparent 48%),
+        linear-gradient(180deg, var(--deep1), var(--deep2) 60%, var(--deep1));
+      background-attachment: fixed;
+    }
+
+    /* Ambient motion */
+    .sheen{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(255,167,0,.14), transparent 48%),
+        radial-gradient(circle at 78% 18%, rgba(12,77,155,.22), transparent 52%),
+        radial-gradient(circle at 60% 75%, rgba(255,255,255,.05), transparent 55%);
+      filter: blur(46px);
+      opacity:.95;
+      animation: drift 14s ease-in-out infinite alternate;
+    }
+    @keyframes drift{ from{transform:translate3d(-2%,-1%,0) scale(1.02)} to{transform:translate3d(2%,1%,0) scale(1.05)} }
+
+    .orb{
+      position:fixed; border-radius:999px; filter:blur(70px);
+      opacity:.55; pointer-events:none; z-index:0;
+      animation: float 10s ease-in-out infinite alternate;
+    }
+    .orb.one{width:420px;height:420px;left:-160px;top:8vh;background:radial-gradient(circle, rgba(255,167,0,.40), transparent 62%)}
+    .orb.two{width:520px;height:520px;right:-220px;top:0;background:radial-gradient(circle, rgba(12,77,155,.55), transparent 62%); animation-duration:12s}
+    .orb.three{width:460px;height:460px;left:25vw;bottom:-260px;background:radial-gradient(circle, rgba(255,255,255,.16), transparent 62%); animation-duration:14s}
+    @keyframes float{from{transform:translateY(0)}to{transform:translateY(18px)}}
+
+    header{
+      position:sticky; top:0; z-index:10;
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      padding:16px 22px;
+      background:linear-gradient(180deg, rgba(7,27,51,.80), rgba(7,27,51,.35));
+      backdrop-filter: blur(12px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      text-decoration:none; color:var(--text);
+      min-width:0;
+    }
+    .logo-slot{
+      width:120px;height:42px;border-radius:12px;
+      border:1px dashed rgba(255,255,255,.22);
+      display:flex;align-items:center;justify-content:center;
+      color:rgba(255,255,255,.55);font-size:12px;letter-spacing:.1em;
+      overflow:hidden;
+      background:rgba(255,255,255,.03);
+      flex:0 0 auto;
+    }
+    .brand-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+    .brand-text b{font-weight:900}
+    .brand-text span{font-size:12px;color:rgba(255,255,255,.70);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:56vw}
+
+    .header-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+    .pill{
+      padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      color:#C7D5E6;font-size:12px;white-space:nowrap;
+    }
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 14px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:900;font-size:12px;
+      transition:.18s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.10)}
+    .btn.primary{
+      border:none;
+      background:linear-gradient(135deg, var(--gold), #FFD36B);
+      color:#3B2A00;
+      box-shadow:0 12px 30px rgba(255,167,0,.22);
+    }
+
+    main{position:relative;z-index:1;max-width:1150px;margin:0 auto;padding:26px 16px 80px}
+
+    .hero{
+      border-radius:26px;
+      border:1px solid var(--border);
+      background:
+        radial-gradient(900px 420px at 10% 10%, rgba(255,167,0,.18), transparent 60%),
+        radial-gradient(700px 520px at 90% 20%, rgba(12,77,155,.25), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      box-shadow:var(--shadow);
+      padding:22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:conic-gradient(from 180deg,
+        rgba(255,167,0,0),
+        rgba(255,167,0,.35),
+        rgba(12,77,155,.35),
+        rgba(255,255,255,.10),
+        rgba(255,167,0,0)
+      );
+      filter: blur(18px);
+      opacity:.55;
+      animation: spin 8s linear infinite;
+      pointer-events:none;
+      z-index:0;
+    }
+    @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+    .hero-inner{position:relative;z-index:1;display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+    .hero-left{flex:1 1 520px;min-width:0}
+    .hero-right{flex:0 0 300px;display:flex;justify-content:flex-end}
+    .badge-urgent{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(255,90,90,.40);
+      background:rgba(255,90,90,.10);
+      color:#FFD0D0;
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      margin-bottom:14px;
+    }
+    h1{
+      font-family:"Playfair Display",serif;
+      font-size:clamp(34px,4.6vw,56px);
+      line-height:1.05;
+      margin:0 0 10px;
+      background:linear-gradient(90deg, #FFF3C4, var(--gold), #8FC2FF);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.65;
+      max-width:78ch;
+    }
+
+    .club-card{
+      width:300px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      padding:16px;
+      box-shadow:0 16px 55px rgba(0,0,0,.30);
+      backdrop-filter: blur(10px);
+    }
+    .club-name{
+      display:flex;align-items:center;gap:10px;
+      font-weight:900;
+      color:#FFF2C7;
+      margin-bottom:6px;
+      font-size:14px;
+    }
+    .club-domain{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      color:#9FB4CF;
+      opacity:.95;
+      margin-bottom:10px;
+      word-break:break-word;
+    }
+    .club-note{
+      color:#C7D5E6;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+      margin-top:16px;
+    }
+    @media(max-width:900px){
+      .grid{grid-template-columns:1fr}
+      .hero-right{flex:1 1 100%;justify-content:flex-start}
+      .club-card{width:100%}
+    }
+
+    .card{
+      border-radius:22px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+      padding:18px;
+      box-shadow:0 18px 55px rgba(0,0,0,.30);
+      backdrop-filter: blur(10px);
+    }
+    .card h2{
+      font-family:"Playfair Display",serif;
+      font-size:20px;
+      color:#FFF2C7;
+      margin-bottom:10px;
+    }
+
+    .list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .li{
+      display:flex;gap:10px;align-items:flex-start;
+      padding:12px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05);
+      color:#C7D5E6;
+      font-size:13px;
+      line-height:1.45;
+    }
+    .li b{color:#EAF0F7}
+
+    .pricing{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    @media(max-width:650px){.pricing{grid-template-columns:1fr}}
+
+    .price-card{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);
+      padding:14px;
+    }
+    .price-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .price-top b{color:#FFF2C7}
+    .price{
+      font-weight:1000;
+      color:#3B2A00;
+      background:linear-gradient(135deg, var(--gold), #FFD36B);
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .price-sub{
+      margin-top:8px;
+      color:#C7D5E6;
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .fine{
+      margin-top:12px;
+      font-size:12px;
+      color:#9FB4CF;
+      line-height:1.5;
+    }
+
+    .cta-row{
+      display:flex;gap:10px;flex-wrap:wrap;
+      margin-top:12px;
+      align-items:center;
+    }
+
+    .callout{
+      margin-top:14px;
+      border-radius:18px;
+      padding:14px;
+      border:1px solid rgba(124,255,178,.25);
+      background:rgba(124,255,178,.08);
+      color:#D9FFEA;
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    footer{
+      text-align:center;
+      color:#9FB4CF;
+      font-size:12px;
+      padding:26px 16px 18px;
+      border-top:1px solid rgba(255,255,255,.08);
+      margin-top:18px;
+    }
+
+    /* tiny toast */
+    .toast{
+      position:fixed; left:50%; bottom:18px;
+      transform:translateX(-50%);
+      background:rgba(7,27,51,.92);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:14px;
+      padding:10px 12px;
+      color:#EAF0F7;
+      font-size:13px;
+      display:none;
+      z-index:99;
+      box-shadow:0 18px 55px rgba(0,0,0,.35);
+    }
+    .toast.show{display:block; animation:pop .2s ease}
+    @keyframes pop{from{transform:translateX(-50%) translateY(8px);opacity:.2}to{transform:translateX(-50%) translateY(0);opacity:1}}
+  </style>
+</head>
+
+<body>
+  <div class="sheen"></div>
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+
+  <header>
+    <a class="brand" href="https://fmpt.net" target="_blank" rel="noopener">
+      <div class="logo-slot">FMPT.net</div>
+      <div class="brand-text">
+        <b>FMPT Hub</b>
+        <span id="clubHeaderLine">Club page placeholder</span>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <span class="pill">Temporary page</span>
+      <a class="btn" href="mailto:FMPTSTUDENT@gmail.com?subject=FMPT%20Hub%20Club%20Website%20Request">Email</a>
+      <a class="btn primary" href="https://discord.gg/84Jutvjk8k" target="_blank" rel="noopener">Discord</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <div class="badge-urgent">⚠️ Website Not Available Yet</div>
+          <h1 id="clubTitle">This club page is under construction.</h1>
+          <p class="sub" id="clubStudentText">
+            The club website you clicked isn’t ready at the moment. Some clubs will be added gradually as they join the FMPT Hub network.
+            If you’re a club member, you can help by sharing announcements, photos, or documents through Discord or email.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn primary" href="https://discord.gg/84Jutvjk8k" target="_blank" rel="noopener">💬 Contribute / Contact on Discord</a>
+            <a class="btn" id="copyLinkBtn" href="javascript:void(0)">📎 Copy this club link</a>
+          </div>
+
+          <div class="callout">
+            <b>Example already live:</b> <a href="https://keytones.fmpt.net" target="_blank" rel="noopener" style="color:#FFF2C7;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.35)">keytones.fmpt.net</a> —
+            the first club to sponsor FMPT Hub and reserve their spot.
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="club-card">
+            <div class="club-name" id="clubNameLine">🏷️ Club</div>
+            <div class="club-domain" id="clubDomainLine">club.fmpt.net</div>
+            <div class="club-note">
+              Want this space for your club? Scroll down — it can become your official page with announcements, gallery, events, and more.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <!-- For presidents/managers -->
+      <div class="card">
+        <h2>👑 For the club president / managers</h2>
+        <p class="sub" style="max-width:unset">
+          I can reserve this subdomain for your club and build a clean, modern club page that looks official and helps your team communicate better.
+          This is a student-built network — when clubs join, it makes the entire platform stronger for thousands of students.
+        </p>
+
+        <div class="list">
+          <div class="li"><div>📣</div><div><b>Announcements page</b><br/>Post events, meetings, deadlines, recruitment, and updates.</div></div>
+<div class="li">
+  <div>📝</div>
+  <div>
+    <b>Professional application forms for new members</b><br/>
+    We help you design a more professional, easy-to-use, and unique system that encourages students to apply to your club while simplifying the selection process, date scheduling, and accepted-list announcements.
+  </div>
+</div>
+<div class="li">
+  <div>🎫</div>
+  <div>
+    <b>Smart ticket sales & check-in system for club events</b><br/>
+    We help you set up a clean, easy-to-use ticketing system that lets your club sell and track tickets in real time, organize attendee lists, and manage entry smoothly. Support online payments and direct cash payments, with clear stats, QR check-in, and simple tools for refunds, ticket limits, and announcements.
+  </div>
+</div>
+          <div class="li"><div>🖼️</div><div><b>Gallery</b><br/>Show your club’s best moments and build a strong identity.</div></div>
+          <div class="li"><div>🗓️</div><div><b>Events + calendar</b><br/>Simple schedule of upcoming activities (with location + time).</div></div>
+          <div class="li"><div>💛</div><div><b>Donation box / sponsorship</b><br/>Optional support links for your club’s projects (transparent & clean).</div></div>
+          <div class="li"><div>📌</div><div><b>Membership / join link</b><br/>One place to direct students: join form, Discord, Instagram, etc.</div></div>  
+          <div class="li"><div>🤝</div><div><b>Visibility across FMPT Hub</b><br/>A verified club spot increases trust and boosts participation.</div></div>
+        
+        </div>
+      </div>
+
+      <!-- Pricing + why pay -->
+      <div class="card">
+        <h2>💼 Pricing & why it exists</h2>
+        <p class="sub" style="max-width:unset">
+          Domains and hosting aren’t “free forever” — keeping subdomains working, pages stable, and links maintained takes time and recurring costs.
+          Club support helps keep FMPT Hub sustainable and helps me improve services that benefit students across every promo.
+        </p>
+
+        <div class="pricing">
+          <div class="price-card">
+            <div class="price-top">
+              <b>Reserve your club subdomain</b>
+              <span class="price">100 MAD / semester</span>
+            </div>
+            <div class="price-sub">Your spot on <span id="clubDomainInline">club.fmpt.net</span> + maintenance + updates support.</div>
+          </div>
+
+          <div class="price-card">
+            <div class="price-top">
+              <b>Reserve for the full academic year</b>
+              <span class="price">150 MAD / year</span>
+            </div>
+            <div class="price-sub">Best value for clubs that want stability across the year.</div>
+          </div>
+
+          <div class="price-card" style="grid-column:1 / -1">
+            <div class="price-top">
+              <b>Want me to build the page for you?</b>
+              <span class="price">+ 100 MAD (one-time)</span>
+            </div>
+            <div class="price-sub">
+              I’ll create a clean club website (home + announcements + gallery + links) that matches the FMPT Hub style.
+              You can also provide your own design and I’ll integrate it.
+            </div>
+          </div>
+        </div>
+
+        <div class="fine">
+          This is intentionally kept low so clubs can join easily. It’s not just “rent” — it’s support that helps FMPT Hub grow faster:
+          better organization, more features, more stability, and better tools for thousands of students.
+        </div>
+
+        <div class="cta-row">
+          <a class="btn primary" id="clubEmailCTA"
+             href="mailto:FMPTSTUDENT@gmail.com?subject=FMPT%20Hub%20Club%20Subdomain%20Request&body=Hi%2C%0A%0AWe%20want%20to%20activate%20our%20club%20subdomain%20(%20club.fmpt.net%20).%0A%0AClub%20name%3A%20%0APresident%20contact%3A%20%0AWe%20prefer%3A%20(100%20MAD%2Fsemester)%20or%20(150%20MAD%2Fyear)%0AWe%20want%20you%20to%20build%20the%20page%3A%20Yes%2FNo%20(+100%20MAD)%0A%0ASocials%20(IG%2FDiscord)%3A%20%0A">
+            ✉️ Request this club page
+          </a>
+          <a class="btn" href="https://discord.gg/84Jutvjk8k" target="_blank" rel="noopener">💬 Talk on Discord</a>
+        </div>
+
+        <div class="callout" style="margin-top:14px">
+          <b>Club sponsorship option:</b> clubs can also sponsor a feature that benefits everyone (e.g. “Announcements system”, “Exam library improvements”),
+          and get a small “Powered by [Club]” credit — ethical visibility that improves student life.
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 FMPT Hub • Student initiative • Not affiliated with the faculty
+    </footer>
+  </main>
+
+  <div class="toast" id="toast">Copied.</div>
+
+  <script>
+    // ===== Club detection from subdomain =====
+    const host = window.location.hostname; // e.g. medscience.fmpt.net
+    const sub = host.split(".")[0] || "club";
+
+    // Map known clubs for nicer display
+    const CLUBS = {
+      keytones: { name:"The Keytones", emoji:"🎸" },
+      docsvoice: { name:"DocsVoice", emoji:"🎙️" },
+      medvinci: { name:"Medvinci", emoji:"🎨" },
+      medmove: { name:"MedMove", emoji:"🏃" },
+      lionstangerdoctors: { name:"Lions Tanger Doctors", emoji:"🦁" },
+      gameon: { name:"Game ON", emoji:"🎮" },
+      medscience: { name:"MedScience", emoji:"🔬" },
+      medreads: { name:"Medreads", emoji:"📚" },
+      medkhayr: { name:"MedKhayr", emoji:"❤️" },
+      "3s": { name:"3s", emoji:"🌙" }
+    };
+
+    const club = CLUBS[sub.toLowerCase()] || { name: sub.toUpperCase(), emoji:"🏷️" };
+    const domain = host;
+
+    document.getElementById("clubHeaderLine").textContent = `${club.emoji} ${club.name} • ${domain}`;
+    document.getElementById("clubTitle").textContent = `${club.emoji} ${club.name} — page not available yet`;
+    document.getElementById("clubNameLine").textContent = `${club.emoji} ${club.name}`;
+    document.getElementById("clubDomainLine").textContent = domain;
+    document.getElementById("clubDomainInline").textContent = domain;
+
+    // Update email CTA body with correct domain
+    const emailCTA = document.getElementById("clubEmailCTA");
+    if (emailCTA){
+      const base = "mailto:FMPTSTUDENT@gmail.com";
+      const subject = encodeURIComponent("FMPT Hub Club Subdomain Request — " + club.name);
+      const body = encodeURIComponent(
+`Hi,
+
+We want to activate our club subdomain: ${domain}
+
+Club name: ${club.name}
+President/manager contact:
+We prefer: (100 MAD/semester) or (150 MAD/year)
+We want you to build the page: Yes/No (+100 MAD one-time)
+
+Socials (IG/Discord):
+Extra features requested:
+`
+      );
+      emailCTA.href = `${base}?subject=${subject}&body=${body}`;
+    }
+
+    // Copy link helper
+    const toast = document.getElementById("toast");
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(window.__t);
+      window.__t = setTimeout(()=>toast.classList.remove("show"), 1600);
+    }
+
+    document.getElementById("copyLinkBtn").addEventListener("click", async ()=>{
+      const msg =
+`${club.name} — FMPT club page (placeholder)
+${window.location.href}
+
+Want your club website here? Contact FMPT Hub: FMPTSTUDENT@gmail.com`;
+      try{
+        await navigator.clipboard.writeText(msg);
+        showToast("Copied ✅");
+      }catch(e){
+        showToast("Couldn’t copy (try manually).");
+      }
+    });
+  </script>
+</body>
+</html>
